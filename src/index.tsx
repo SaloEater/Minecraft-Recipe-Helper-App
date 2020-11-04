@@ -2,11 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import {Provider} from "mobx-react";
 import reportWebVitals from './reportWebVitals';
+import mainStore from "./state";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider ItemsStore={mainStore.ItemsStore} IdStore={mainStore.IdStore}>
+        <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

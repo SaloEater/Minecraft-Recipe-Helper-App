@@ -1,25 +1,33 @@
 import React from "react";
-import {Route, Router, Switch} from "react-router";
+import {Route, Switch} from "react-router";
 import {observer} from "mobx-react";
-import MainLayout from "./layouts/main";
-import MainPage from "./pages/main";
-import {createBrowserHistory} from "history";
-
-const history = createBrowserHistory();
+import MainLayout from "./layout/main";
+import MainPage from "./page/main";
+import ItemPage from "./page/item";
+import CreatePage from "./page/common/create";
 
 @observer
 export default class Routes extends React.Component<any, any> {
     render() {
         return (
-            <Router history={history}>
+            <MainLayout>
                 <Switch>
-                    <Route path="/" exact><MainLayout><MainPage/></MainLayout></Route>
-                    <Route path="/item/:id?" exact><MainLayout>"Items"</MainLayout></Route>
-                    <Route path="/recipe/:id?" exact><MainLayout>"Recipes"</MainLayout></Route>
-                    <Route path="/machine/:id?" exact><MainLayout>"Machines"</MainLayout></Route>
-                    <Route path="/recipe-result/:id?" exact><MainLayout>"Recipe Results"</MainLayout></Route>
+                    <Route path="/" exact render={() => (
+                        <MainPage/>
+                    )}/>
+                    <Route path="/create/:entity?" exact component={CreatePage} />
+                    <Route path="/item/:id?" exact component={ItemPage} />
+                    <Route path="/recipe/:id?" exact render={() => (
+                        "Recipes"
+                    )}/>
+                    <Route path="/machine/:id?" exact render={() => (
+                        "Machines"
+                    )}/>
+                    <Route path="/recipe-result/:id?" exact render={() => (
+                        "Recipe Results"
+                    )}/>
                 </Switch>
-            </Router>
+            </MainLayout>
         );
     }
 }
