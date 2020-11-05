@@ -3,7 +3,6 @@ import {action, computed, makeAutoObservable, observable, reaction, trace} from 
 import {MainStore} from "../index";
 import IdStore from "../id";
 import {IdTypes} from "../../type/common/id/types";
-import {  } from "mobx"
 
 export class ItemsStore
 {
@@ -12,6 +11,11 @@ export class ItemsStore
     _newItemName: string = "";
     _canCreateNewItem: boolean = false;
     _createNewItemButtonClicked: boolean = false;
+
+    private save(): void {
+        let items = JSON.stringify(Array.from(this._items.values()));
+        localStorage.setItem(IdTypes.ITEM, items);
+    }
 
     constructor(globalStore: MainStore) {
         this._IdStore = globalStore.IdStore;
@@ -49,6 +53,7 @@ export class ItemsStore
     addItem(item: Item): void {
         this._items.set(item.id, item);
         this._IdStore.updateNextId(IdTypes.ITEM);
+        this.save();
     }
 
     getItem(id: string): Item {
@@ -75,7 +80,7 @@ export class ItemsStore
             name: newName
         } as Item;
         this.addItem(item);
-        this._newItemName = "";
+        this.onNewItemNameChange("");
     }
 
     onNewItemNameChange(newName: string): void {

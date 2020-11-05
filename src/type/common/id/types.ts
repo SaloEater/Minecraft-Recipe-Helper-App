@@ -1,3 +1,4 @@
 export enum IdTypes {
-    ITEM= "ITEM"
+    ITEM = "ITEM",
+    ID = "ID",
 }

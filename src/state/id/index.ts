@@ -3,10 +3,11 @@ import {IdTypes} from "../../type/common/id/types";
 
 class IdStore implements IdStoreInterface
 {
-    private _ids: Map<string, number> = new Map<string, number>();
+    _ids: Map<string, number> = new Map<string, number>();
 
-    constructor() {
-        this._ids.set(IdTypes.ITEM, 1);
+    private save() {
+        let items = JSON.stringify(Array.from(this._ids.entries()));
+        localStorage.setItem(IdTypes.ID, items);
     }
 
     getNextId(type: string): number {
@@ -18,6 +19,7 @@ class IdStore implements IdStoreInterface
             type,
             this.getNextId(type)+1
         );
+        this.save();
     }
 }
 

@@ -1,5 +1,7 @@
 import ItemsStore from "./item";
 import IdStore from "./id";
+import {IdTypes} from "../type/common/id/types";
+import {Item} from "../type/component/item";
 
 export class MainStore {
     ItemsStore: ItemsStore;
@@ -11,4 +13,15 @@ export class MainStore {
     }
 }
 const mainStore = new MainStore();
+
+let getStoreFromStorage = (key: string) => localStorage.getItem(key) ? JSON.parse(localStorage.getItem(key) as string) : [];
+
+getStoreFromStorage(IdTypes.ITEM).forEach(function (entry: Item) {
+    mainStore.ItemsStore._items.set(entry.id, entry);
+})
+
+getStoreFromStorage(IdTypes.ID).forEach(function (entry: string[] | number []) {
+    mainStore.IdStore._ids.set(entry[0] as string, entry[1] as number);
+})
+
 export default mainStore;
