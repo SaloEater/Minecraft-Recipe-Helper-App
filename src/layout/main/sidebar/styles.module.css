@@ -2,3 +2,8 @@
     display: grid;
     grid-template-rows: 1fr 1fr 1fr 1fr;
 }
+
+.Sidebar div {
+    display: grid;
+    grid-template-columns: 10fr 0.1fr;
+}

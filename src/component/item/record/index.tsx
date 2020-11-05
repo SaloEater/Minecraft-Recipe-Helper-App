@@ -1,13 +1,13 @@
 import React from "react";
 import {inject, observer} from "mobx-react";
 import {ItemParams} from "../../../type/page/item/ItemParams";
-import {ItemsStoreInterface} from "../../../type/component/item";
 import ItemsStore from "../../../state/item";
+import {Link} from "react-router-dom";
 
-@observer
 @inject("ItemsStore")
+@observer
 export default class ItemRecord extends React.Component<ItemParams, any> {
-    itemsStore: ItemsStoreInterface;
+    itemsStore: ItemsStore;
 
     constructor(props: any) {
         super(props);
@@ -18,7 +18,7 @@ export default class ItemRecord extends React.Component<ItemParams, any> {
         const id: string = this.props.id;
         const item = this.itemsStore.getItem(id);
         return (
-            <div>Item: { "{id: " + item.id + ", name: " + item.name + "}" } </div>
+            <div>Item: { "{id: "} <Link to={"/item/"+id}>{id}</Link> {", name: " + item.name + "}" } </div>
         );
     }
 }

@@ -1,20 +1,51 @@
-import {Item, ItemsStoreInterface} from "../../type/component/item";
-import {action} from "mobx";
+import {Item} from "../../type/component/item";
+import {action, computed, makeAutoObservable, observable, reaction, trace} from "mobx";
 import {MainStore} from "../index";
 import IdStore from "../id";
 import {IdTypes} from "../../type/common/id/types";
+import {  } from "mobx"
 
-class ItemsStore implements ItemsStoreInterface
+export class ItemsStore
 {
-    private _items: Map<string, Item> = new Map<string, Item>();
-    private _IdStore: IdStore;
+    _items: Map<string, Item> = new Map<string, Item>();
+    _IdStore: IdStore;
+    _newItemName: string = "";
+    _canCreateNewItem: boolean = false;
+    _createNewItemButtonClicked: boolean = false;
 
     constructor(globalStore: MainStore) {
         this._IdStore = globalStore.IdStore;
-        this._items.set("1", {id: "1", name: "name"});
+        reaction(
+            () => this._newItemName,
+            (result: string) => {
+                trace(true)
+                console.log(result);
+                this._canCreateNewItem = result !== "";
+            }
+        )
+        reaction(
+            () => this._createNewItemButtonClicked,
+            (clicked: boolean) => {
+                trace(true)
+                console.log("Clicked: " + clicked);
+                if (clicked) {
+                    this.createNewItem();
+                }
+            }
+        )
+        makeAutoObservable(this, {
+            _items: observable,
+            _newItemName: observable,
+            _createNewItemButtonClicked: observable,
+            addItem: action,
+            createNewItemButtonClicked: action,
+            removeItem: action,
+            onNewItemNameChange: action,
+            canCreateNewItem: computed,
+            getNewItemName: computed
+        });
     }
 
-    @action
     addItem(item: Item): void {
         this._items.set(item.id, item);
         this._IdStore.updateNextId(IdTypes.ITEM);
@@ -26,7 +57,7 @@ class ItemsStore implements ItemsStoreInterface
 
     getItems(): Item[] {
         let items: Item[] = [];
-        this._items.forEach(function (value, key) {
+        this._items.forEach(function (value: Item) {
             items.push(value);
         });
         return items;
@@ -34,6 +65,35 @@ class ItemsStore implements ItemsStoreInterface
 
     removeItem(item: Item): void {
         this._items.delete(item.id);
+    }
+
+    createNewItem(): void {
+        let id: string = String(this._IdStore.getNextId(IdTypes.ITEM));
+        let newName: string = this._newItemName;
+        let item = {
+            id: id,
+            name: newName
+        } as Item;
+        this.addItem(item);
+        this._newItemName = "";
+    }
+
+    onNewItemNameChange(newName: string): void {
+        this._newItemName = newName;
+        this._canCreateNewItem = this._newItemName !== "";
+    }
+
+    createNewItemButtonClicked(): void {
+        this._createNewItemButtonClicked = true;
+        this.createNewItem();
+    }
+
+    get getNewItemName() {
+        return this._newItemName;
+    }
+
+    get canCreateNewItem() {
+        return !this._canCreateNewItem;
     }
 }
 
