@@ -2,7 +2,8 @@ import React from "react";
 import MachinesStore from "../../../state/machine";
 import {Machine} from "../../../type/component/machine";
 import {inject, observer} from "mobx-react";
-import MachineRecord from "../record";
+import styles from "./styles.module.css";
+import {Link} from "react-router-dom";
 
 class InnerMachineList extends React.Component<any, any>
 {
@@ -16,11 +17,11 @@ class InnerMachineList extends React.Component<any, any>
     render() {
         const items: any[] = [];
         this.MachinesStore.getMachines().forEach(
-            (machine: Machine) => items.push(<MachineRecord id={machine.id}/>)
+            (machine: Machine) => items.push(<Link to={"/machine/"+machine.id}>{machine.name}</Link>)
         );
         console.log(items);
         return (
-            <div>{items}</div>
+            <div className={styles.items}>{items}</div>
         );
     }
 }

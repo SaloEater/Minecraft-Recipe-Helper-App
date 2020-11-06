@@ -4,7 +4,7 @@ import {MainStore} from "../index";
 import IdStore from "../id";
 import {IdTypes} from "../../type/common/id/types";
 
-export class RecipeResultStore
+export class RecipeResultsStore
 {
     _items: Map<string, RecipeResult> = new Map<string, RecipeResult>();
     _IdStore: IdStore;
@@ -17,7 +17,7 @@ export class RecipeResultStore
 
     private save(): void {
         let items = JSON.stringify(Array.from(this._items.values()));
-        localStorage.setItem(IdTypes.MACHINE, items);
+        localStorage.setItem(IdTypes.RECIPE_RESULT, items);
     }
 
     constructor(globalStore: MainStore) {
@@ -61,7 +61,7 @@ export class RecipeResultStore
 
     addRecipeResult(recipeResult: RecipeResult): void {
         this._items.set(recipeResult.id, recipeResult);
-        this._IdStore.updateNextId(IdTypes.MACHINE);
+        this._IdStore.updateNextId(IdTypes.RECIPE_RESULT);
         this.save();
     }
 
@@ -69,7 +69,7 @@ export class RecipeResultStore
         return this._items.get(id) ?? {} as RecipeResult;
     }
 
-    getItems(): RecipeResult[] {
+    getRecipeResults(): RecipeResult[] {
         let recipeResults: RecipeResult[] = [];
         this._items.forEach(function (value: RecipeResult) {
             recipeResults.push(value);
@@ -82,7 +82,7 @@ export class RecipeResultStore
     }
 
     private createNewRecipeResult(): void {
-        let id: string = String(this._IdStore.getNextId(IdTypes.MACHINE));
+        let id: string = String(this._IdStore.getNextId(IdTypes.RECIPE_RESULT));
         let recipeResult = {
             id: id,
             resultId: this._selectedResultItemId,
@@ -91,6 +91,8 @@ export class RecipeResultStore
         } as RecipeResult;
         this.addRecipeResult(recipeResult);
         this.onSelectResultItem("");
+        this.onSelectMachine("");
+        this.onAmountChange("");
     }
 
     createNewItemButtonClicked(): void {
@@ -109,8 +111,10 @@ export class RecipeResultStore
     }
 
     onAmountChange(newAmount: string): void {
-        this._newRecipeAmount = newAmount;
-        this.updateCreateButtonAvailability();
+        if (this.isNumeric(newAmount) || newAmount === ""){
+            this._newRecipeAmount = newAmount;
+            this.updateCreateButtonAvailability();
+        }
     }
 
     get getSelectedResultItemId() {
@@ -135,6 +139,11 @@ export class RecipeResultStore
             && this._selectedMachineId !== ""
             && this._newRecipeAmount !== "";
     }
+
+    private isNumeric(str: string): boolean {
+        return !isNaN(Number(str)) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
+            !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
+    }
 }
 
-export default RecipeResultStore;
+export default RecipeResultsStore;

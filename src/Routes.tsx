@@ -7,6 +7,8 @@ import ItemPage from "./page/item";
 import ItemCreatePage from "./page/item/create";
 import MachinePage from "./page/machine";
 import MachineCreatePage from "./page/machine/create";
+import RecipeResultPage from "./page/recipe-result";
+import RecipeResultCreatePage from "./page/recipe-result/create";
 
 @observer
 export default class Routes extends React.Component<any, any> {
@@ -21,9 +23,8 @@ export default class Routes extends React.Component<any, any> {
                     <Route path="/item/:id?" exact component={ItemPage} />
                     <Route path="/machine/create" exact component={MachineCreatePage} />
                     <Route path="/machine/:id?" exact component={MachinePage}/>
-                    <Route path="/recipe-result/:id?" exact render={() => (
-                        "Recipe Results"
-                    )}/>
+                    <Route path="/recipe-result/create" exact component={RecipeResultCreatePage} />
+                    <Route path="/recipe-result/:id?" exact component={RecipeResultPage}/>
                     <Route path="/recipe/:id?" exact render={() => (
                         "Recipes"
                     )}/>

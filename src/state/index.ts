@@ -4,16 +4,20 @@ import {IdTypes} from "../type/common/id/types";
 import {Item} from "../type/component/item";
 import MachinesStore from "./machine";
 import {Machine} from "../type/component/machine";
+import RecipeResultsStore from "./recipe-result";
+import {RecipeResult} from "../type/component/recipe-result";
 
 export class MainStore {
     ItemsStore: ItemsStore;
     IdStore: IdStore;
     MachinesStore: MachinesStore;
+    RecipeResultsStore: RecipeResultsStore;
 
     constructor() {
         this.IdStore = new IdStore();
         this.ItemsStore = new ItemsStore(this);
         this.MachinesStore = new MachinesStore(this);
+        this.RecipeResultsStore = new RecipeResultsStore(this);
     }
 }
 const mainStore = new MainStore();
@@ -26,6 +30,9 @@ getStoreFromStorage(IdTypes.ITEM).forEach(function (entry: Item) {
 
 getStoreFromStorage(IdTypes.MACHINE).forEach(function (entry: Machine) {
     mainStore.MachinesStore._items.set(entry.id, entry);
+})
+getStoreFromStorage(IdTypes.RECIPE_RESULT).forEach(function (entry: RecipeResult) {
+    mainStore.RecipeResultsStore._items.set(entry.id, entry);
 })
 
 getStoreFromStorage(IdTypes.ID).forEach(function (entry: string[] | number []) {
