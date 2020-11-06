@@ -8,7 +8,11 @@ import mainStore from "./state";
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider ItemsStore={mainStore.ItemsStore} IdStore={mainStore.IdStore}>
+    <Provider
+        ItemsStore={mainStore.ItemsStore}
+        IdStore={mainStore.IdStore}
+        MachinesStore={mainStore.MachinesStore}
+    >
         <App />
     </Provider>
   </React.StrictMode>,
