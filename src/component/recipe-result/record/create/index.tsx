@@ -29,7 +29,7 @@ class InnerRecipeResultNewRecord extends React.Component<any, any> {
         })
 
         return (
-            <div className={styles.form}>
+            <div className={styles.items}>
                 Describe the machine:
                 <select value={this.RecipeResultsStore.getSelectedResultItemId} onChange={(e: ChangeEvent<HTMLSelectElement>) => this.RecipeResultsStore.onSelectResultItem(e.target.value as string)}>
                     <option value="">Select item</option>

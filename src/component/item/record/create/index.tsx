@@ -13,7 +13,7 @@ class InnerItemNewRecord extends React.Component<any, any> {
 
     render() {
         return (
-            <div className={styles.form}>
+            <div className={styles.items}>
             Describe the item:
             <textarea
                 value={this.itemsStore.getNewItemName}

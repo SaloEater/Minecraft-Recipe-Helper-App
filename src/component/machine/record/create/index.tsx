@@ -13,7 +13,7 @@ class InnerMachineNewRecord extends React.Component<any, any> {
 
     render() {
         return (
-            <div className={styles.form}>
+            <div className={styles.items}>
             Describe the machine:
             <textarea
                 value={this.machinesStore.getNewItemName}
