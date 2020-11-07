@@ -24,9 +24,9 @@ class InnerRecipeResultList extends React.Component<any, any>
         const items: any[] = [];
         this.RecipeResultsStore.getRecipeResults().forEach(
             (rr: RecipeResult) => {
-                const item = this.ItemsStore.getItem(rr.resultId);
+                const item = this.ItemsStore.getItem(rr.resultItemId);
                 const machine = this.MachinesStore.getMachine(rr.machineId);
-                return items.push(<div><Link to={"/recipe-result/"+rr.id}>Edit</Link>: {item.name} using {machine.name} </div>);
+                return items.push(<div><Link to={"/recipe-result/"+rr.id}>{rr.name}</Link>: {item.name} using {machine.name} </div>);
             }
         );
         console.log(items);

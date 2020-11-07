@@ -1,5 +1,5 @@
 import {Item} from "../../type/component/item";
-import {action, computed, makeAutoObservable, observable, reaction, trace} from "mobx";
+import {action, computed, makeAutoObservable, observable} from "mobx";
 import {MainStore} from "../index";
 import IdStore from "../id";
 import {IdTypes} from "../../type/common/id/types";
@@ -11,6 +11,9 @@ export class ItemsStore
     _newItemName: string = "";
     _canCreateNewItem: boolean = false;
     _createNewItemButtonClicked: boolean = false;
+    _amountToCraft: string = "";
+    _canCraft: boolean = false;
+    _newStack: string = "";
 
     private save(): void {
         let items = JSON.stringify(Array.from(this._items.values()));
@@ -19,34 +22,23 @@ export class ItemsStore
 
     constructor(globalStore: MainStore) {
         this._IdStore = globalStore.IdStore;
-        reaction(
-            () => this._newItemName,
-            (result: string) => {
-                trace(true)
-                console.log(result);
-                this._canCreateNewItem = result !== "";
-            }
-        )
-        reaction(
-            () => this._createNewItemButtonClicked,
-            (clicked: boolean) => {
-                trace(true)
-                console.log("Clicked: " + clicked);
-                if (clicked) {
-                    this.createNewItem();
-                }
-            }
-        )
+
         makeAutoObservable(this, {
             _items: observable,
             _newItemName: observable,
             _createNewItemButtonClicked: observable,
+            _newStack: observable,
+            _amountToCraft: observable,
             addItem: action,
             createNewItemButtonClicked: action,
             removeItem: action,
             onNewItemNameChange: action,
+            onNewStackChanged: action,
             canCreateNewItem: computed,
-            getNewItemName: computed
+            getNewItemName: computed,
+            getAmountToCraft: computed,
+            canCraft: computed,
+            getNewStack: computed,
         });
     }
 
@@ -77,15 +69,17 @@ export class ItemsStore
         let newName: string = this._newItemName;
         let item = {
             id: id,
-            name: newName
+            name: newName,
+            stack: Number(this._newStack)
         } as Item;
         this.addItem(item);
         this.onNewItemNameChange("");
+        this.onNewStackChanged("");
     }
 
     onNewItemNameChange(newName: string): void {
         this._newItemName = newName;
-        this._canCreateNewItem = this._newItemName !== "";
+        this.updateCanCreate();
     }
 
     createNewItemButtonClicked(): void {
@@ -99,6 +93,50 @@ export class ItemsStore
 
     get canCreateNewItem() {
         return !this._canCreateNewItem;
+    }
+
+    onAmountToCraftChanged(value: string) {
+        if (this.isNumeric(value) || value === "") {
+            this._amountToCraft = value;
+            this.updateCanCraftState();
+        }
+    }
+
+    private isNumeric(str: string): boolean {
+        return !isNaN(Number(str)) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
+            !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
+    }
+
+    private updateCanCraftState() {
+        this._canCraft = this._amountToCraft !== "";
+    }
+
+    get getAmountToCraft()
+    {
+        return this._amountToCraft;
+    }
+
+    get canCraft()
+    {
+        return !this._canCraft;
+    }
+
+    onNewStackChanged(value: string) {
+        if (this.isNumeric(value) || value === "") {
+            this._newStack = value;
+            this.updateCanCreate();
+        }
+    }
+
+    get getNewStack()
+    {
+        return this._newStack;
+    }
+
+    private updateCanCreate() {
+        this._canCreateNewItem =
+            this._newItemName !== "" &&
+            this._newStack !== "";
     }
 }
 

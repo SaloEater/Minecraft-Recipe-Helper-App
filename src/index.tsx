@@ -13,6 +13,7 @@ ReactDOM.render(
         IdStore={mainStore.IdStore}
         MachinesStore={mainStore.MachinesStore}
         RecipeResultsStore={mainStore.RecipeResultsStore}
+        RecipesStore={mainStore.RecipesStore}
     >
         <App />
     </Provider>

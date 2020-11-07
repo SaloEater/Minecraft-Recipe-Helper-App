@@ -19,7 +19,10 @@ export default class LayoutSidebar extends React.Component<any, any>
                     <Link to="/recipe-result">Recipe Result</Link>
                     <Link to="/recipe-result/create">+</Link>
                 </div>
-                <Link to="/recipe">Recipes</Link>
+                <div>
+                    <Link to="/recipe">Recipe</Link>
+                    <Link to="/recipe/create">+</Link>
+                </div>
             </div>
         );
     }

@@ -1,5 +1,5 @@
 import {Machine} from "../../type/component/machine";
-import {action, computed, makeAutoObservable, observable, reaction, trace} from "mobx";
+import {action, computed, makeAutoObservable, observable} from "mobx";
 import {MainStore} from "../index";
 import IdStore from "../id";
 import {IdTypes} from "../../type/common/id/types";
@@ -19,24 +19,7 @@ export class MachinesStore
 
     constructor(globalStore: MainStore) {
         this._IdStore = globalStore.IdStore;
-        reaction(
-            () => this._newItemName,
-            (result: string) => {
-                trace(true)
-                console.log(result);
-                this._canCreateNewItem = result !== "";
-            }
-        )
-        reaction(
-            () => this._createNewItemButtonClicked,
-            (clicked: boolean) => {
-                trace(true)
-                console.log("Clicked: " + clicked);
-                if (clicked) {
-                    this.createNewMachine();
-                }
-            }
-        )
+
         makeAutoObservable(this, {
             _items: observable,
             _newItemName: observable,

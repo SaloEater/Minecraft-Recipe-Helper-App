@@ -9,6 +9,9 @@ import MachinePage from "./page/machine";
 import MachineCreatePage from "./page/machine/create";
 import RecipeResultPage from "./page/recipe-result";
 import RecipeResultCreatePage from "./page/recipe-result/create";
+import RecipePage from "./page/recipe";
+import RecipeCreatePage from "./page/recipe/create";
+import ShowItemRecipePage from "./page/common/show-item-recipe";
 
 @observer
 export default class Routes extends React.Component<any, any> {
@@ -25,9 +28,9 @@ export default class Routes extends React.Component<any, any> {
                     <Route path="/machine/:id?" exact component={MachinePage}/>
                     <Route path="/recipe-result/create" exact component={RecipeResultCreatePage} />
                     <Route path="/recipe-result/:id?" exact component={RecipeResultPage}/>
-                    <Route path="/recipe/:id?" exact render={() => (
-                        "Recipes"
-                    )}/>
+                    <Route path="/recipe/create" exact component={RecipeCreatePage} />
+                    <Route path="/recipe/:id?" exact component={RecipePage}/>
+                    <Route path="/show-recipe/:itemId/:amount" exact component={ShowItemRecipePage} />
                 </Switch>
             </MainLayout>
         );

@@ -1,4 +1,4 @@
-import React, {ChangeEvent, SelectHTMLAttributes} from "react";
+import React, {ChangeEvent} from "react";
 import {inject, observer} from "mobx-react";
 import styles from "./styles.module.css";
 import MachinesStore from "../../../../state/machine";
@@ -40,6 +40,12 @@ class InnerRecipeResultNewRecord extends React.Component<any, any> {
                     {MachineSelection}
                 </select>
                 <textarea
+                    placeholder="Name"
+                    value={this.RecipeResultsStore.getNewName}
+                    onChange={(e: ChangeEvent<HTMLTextAreaElement>) => this.RecipeResultsStore.onNewNameChange(e.target.value)}
+                />
+                <textarea
+                    placeholder="Amount"
                     value={this.RecipeResultsStore.getAmount}
                     onChange={(e: ChangeEvent<HTMLTextAreaElement>) => this.RecipeResultsStore.onAmountChange(e.target.value)}
                 />

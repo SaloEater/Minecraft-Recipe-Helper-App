@@ -16,6 +16,7 @@ class InnerMachineNewRecord extends React.Component<any, any> {
             <div className={styles.items}>
             Describe the machine:
             <textarea
+                placeholder="Name"
                 value={this.machinesStore.getNewItemName}
                 onChange={(e: ChangeEvent<HTMLTextAreaElement>)=>this.machinesStore.onNewItemNameChange(e.target.value)}
             />
