@@ -22,7 +22,7 @@ export class RecipeResultsStore
     _newName: string = "";
 
 
-    private save(): void {
+    private saveState(): void {
         let items = JSON.stringify(Array.from(this._items.values()));
         localStorage.setItem(IdTypes.RECIPE_RESULT, items);
     }
@@ -57,7 +57,7 @@ export class RecipeResultsStore
     addRecipeResult(recipeResult: RecipeResult): void {
         this._items.set(recipeResult.id, recipeResult);
         this._IdStore.updateNextId(IdTypes.RECIPE_RESULT);
-        this.save();
+        this.saveState();
     }
 
     getRecipeResult(id: string): RecipeResult {
@@ -153,6 +153,11 @@ export class RecipeResultsStore
         const itemName = this._selectedResultItemId !== "" ? this._ItemsStore.getItem(this._selectedResultItemId).name : "";
         const machineName = this._selectedMachineId !== "" ? this._MachinesStore.getMachine(this._selectedMachineId).name : "";
         this._newName = itemName !== "" && machineName !== "" ? itemName + ' - ' + machineName : "";
+    }
+
+    save(rr: RecipeResult): void {
+        this._items.set(rr.id, rr);
+        this.saveState();
     }
 }
 

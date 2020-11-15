@@ -1,32 +1,32 @@
 import React from "react";
-import MachinesStore from "../../../state/machine";
 import {inject} from "mobx-react";
 import {RecipeResultParams} from "../../../type/page/recipe-result/RecipeResultParams";
-import ItemsStore from "../../../state/item";
 import RecipeResultsStore from "../../../state/recipe-result";
+import {RecipeResultNewRecord} from "./create";
 
-@inject("MachinesStore", "ItemsStore", "RecipeResultsStore")
+@inject("RecipeResultsStore")
 export default class RecipeResultRecord extends React.Component<RecipeResultParams, any>
 {
-    MachinesStore: MachinesStore;
-    ItemsStore: ItemsStore;
     RecipeResultsStore: RecipeResultsStore;
 
     constructor(props: any) {
         super(props);
-        this.MachinesStore = props.MachinesStore;
-        this.ItemsStore = props.ItemsStore;
         this.RecipeResultsStore = props.RecipeResultsStore;
     }
 
     render() {
         const id = this.props.id;
         const rr = this.RecipeResultsStore.getRecipeResult(id);
-        const machine = this.MachinesStore.getMachine(rr.machineId);
-        const item = this.ItemsStore.getItem(rr.resultItemId);
+        const onClick = () => {
+            rr.amount = Number(this.RecipeResultsStore.getAmount);
+            rr.machineId = this.RecipeResultsStore.getSelectedMachineId;
+            rr.resultItemId = this.RecipeResultsStore.getSelectedResultItemId;
+            rr.name = this.RecipeResultsStore.getNewName;
+            this.RecipeResultsStore.save(rr);
+        }
         return (
             <div>
-                Create {rr.amount} of {item.name} using {machine.name}
+                <RecipeResultNewRecord rr={rr} onClick={onClick}/>
             </div>
         );
     }
