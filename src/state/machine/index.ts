@@ -48,7 +48,7 @@ export class MachinesStore
         this._items.forEach(function (value: Machine) {
             machines.push(value);
         });
-        return machines;
+        return machines.sort(((a, b) => a.name.localeCompare(b.name)));
     }
 
     removeMachine(machine: Machine): void {

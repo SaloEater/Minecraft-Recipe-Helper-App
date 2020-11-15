@@ -69,7 +69,7 @@ export class RecipeResultsStore
         this._items.forEach(function (value: RecipeResult) {
             recipeResults.push(value);
         });
-        return recipeResults;
+        return recipeResults.sort(((a, b) => a.name.localeCompare(b.name)));
     }
 
     removeRecipeResult(recipeResult: RecipeResult): void {

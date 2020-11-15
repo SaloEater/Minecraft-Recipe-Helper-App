@@ -58,7 +58,7 @@ export class ItemsStore
         this._items.forEach(function (value: Item) {
             items.push(value);
         });
-        return items;
+        return items.sort(((a, b) => a.name.localeCompare(b.name)));
     }
 
     removeItem(item: Item): void {
