@@ -3,9 +3,11 @@ import React from "react";
 import {RecipeResult} from "../../../type/component/recipe-result";
 import {inject, observer} from "mobx-react";
 import styles from "./styles.module.css";
-import {Link} from "react-router-dom";
 import ItemsStore from "../../../state/item";
 import MachinesStore from "../../../state/machine";
+import {RecipeResultLink} from "../../common/link/recipe-result";
+import {ItemLink} from "../../common/link/item";
+import {MachineLink} from "../../common/link/machine";
 
 class InnerRecipeResultList extends React.Component<any, any>
 {
@@ -26,7 +28,9 @@ class InnerRecipeResultList extends React.Component<any, any>
             (rr: RecipeResult) => {
                 const item = this.ItemsStore.getItem(rr.resultItemId);
                 const machine = this.MachinesStore.getMachine(rr.machineId);
-                return items.push(<div><Link to={"/recipe-result/"+rr.id}>{rr.name}</Link>: {item.name} using {machine.name} </div>);
+                return items.push(<div>
+                    {RecipeResultLink(rr)}: {rr.amount} of {ItemLink(item)} using {MachineLink(machine)}
+                </div>);
             }
         );
         console.log(items);

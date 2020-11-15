@@ -6,6 +6,8 @@ import {Link} from "react-router-dom";
 import ItemsStore from "../../../state/item";
 import {Recipe} from "../../../type/component/recipe";
 import RecipesStore from "../../../state/recipe";
+import {ItemLink} from "../../common/link/item";
+import {RecipeResultLink} from "../../common/link/recipe-result";
 
 class InnerRecipeList extends React.Component<any, any>
 {
@@ -25,10 +27,9 @@ class InnerRecipeList extends React.Component<any, any>
         this.RecipesStore.getRecipes().forEach(
             (recipe: Recipe) => {
                 const item = this.ItemsStore.getItem(recipe.itemId);
-                const recipeResult = this.RecipeResultsStore.getRecipeResult(recipe.recipeResultId);
-                const resultItem = this.ItemsStore.getItem(recipeResult.resultItemId);
+                const rr = this.RecipeResultsStore.getRecipeResult(recipe.recipeResultId);
                 return items.push(<div>
-                    <Link to={"/recipe/"+recipe.id}>Edit</Link>: {resultItem.name} using {recipe.amount} of {item.name}
+                    {RecipeResultLink(rr)} with {recipe.amount} of {ItemLink(item)}
                 </div>);
             }
         );
