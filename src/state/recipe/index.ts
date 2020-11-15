@@ -4,11 +4,13 @@ import IdStore from "../id";
 import {IdTypes} from "../../type/common/id/types";
 import {Recipe} from "../../type/component/recipe";
 import {isNumeric} from "../../common/isNumeric";
+import RecipeResultsStore from "../recipe-result";
 
 export class RecipesStore
 {
     _items: Map<string, Recipe> = new Map<string, Recipe>();
     _IdStore: IdStore;
+    _RRStore: RecipeResultsStore;
 
     _selectedItemId: string = "";
     _selectedRecipeResultId: string = "";
@@ -23,7 +25,7 @@ export class RecipesStore
 
     constructor(globalStore: MainStore) {
         this._IdStore = globalStore.IdStore;
-
+        this._RRStore = globalStore.RecipeResultsStore;
         makeAutoObservable(this, {
             _items: observable,
             _selectedItemId: observable,
@@ -58,7 +60,11 @@ export class RecipesStore
         this._items.forEach(function (value: Recipe) {
             recipe.push(value);
         });
-        return recipe;
+        return recipe.sort((a, b) => {
+            const itemA = this._RRStore.getRecipeResult(a.recipeResultId);
+            const itemB = this._RRStore.getRecipeResult(b.recipeResultId);
+            return itemA.name.localeCompare(itemB.name);
+        });
     }
 
     removeRecipe(recipe: Recipe): void {
