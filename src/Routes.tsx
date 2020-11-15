@@ -5,7 +5,7 @@ import MainPage from "./page/main";
 import ItemPage from "./page/item";
 import {ItemCreatePage} from "./page/item/create";
 import MachinePage from "./page/machine";
-import MachineCreatePage from "./page/machine/create";
+import {MachineCreatePage} from "./page/machine/create";
 import RecipeResultPage from "./page/recipe-result";
 import RecipeResultCreatePage from "./page/recipe-result/create";
 import RecipePage from "./page/recipe";

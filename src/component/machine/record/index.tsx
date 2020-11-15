@@ -1,9 +1,10 @@
 import React from "react";
 import MachinesStore from "../../../state/machine";
-import {inject} from "mobx-react";
-import {Link} from "react-router-dom";
+import {inject, observer} from "mobx-react";
 import {MachineParams} from "../../../type/page/machine/MachineParams";
+import {MachineNewRecord} from "./create";
 
+@observer
 @inject("MachinesStore")
 export default class MachineRecord extends React.Component<MachineParams, any>
 {
@@ -17,8 +18,12 @@ export default class MachineRecord extends React.Component<MachineParams, any>
     render() {
         const id = this.props.id;
         const machine = this.MachinesStore.getMachine(id);
+        const onClick = () => {
+            machine.name = this.MachinesStore.getNewItemName;
+            this.MachinesStore.save(machine);
+        }
         return (
-            <div>Machine: { "{id: "} <Link to={"/machine/"+id}>{id}</Link> {", name: " + machine.name + "}" } </div>
+            <MachineNewRecord machine={machine} onClick={onClick}/>
         );
     }
 }

@@ -12,7 +12,7 @@ export class MachinesStore
     _canCreateNewItem: boolean = false;
     _createNewItemButtonClicked: boolean = false;
 
-    private save(): void {
+    private saveState(): void {
         let items = JSON.stringify(Array.from(this._items.values()));
         localStorage.setItem(IdTypes.MACHINE, items);
     }
@@ -36,7 +36,7 @@ export class MachinesStore
     addItem(machine: Machine): void {
         this._items.set(machine.id, machine);
         this._IdStore.updateNextId(IdTypes.MACHINE);
-        this.save();
+        this.saveState();
     }
 
     getMachine(id: string): Machine {
@@ -82,6 +82,11 @@ export class MachinesStore
 
     get canCreateNewItem() {
         return !this._canCreateNewItem;
+    }
+
+    save(machine: Machine): void {
+        this._items.set(machine.id, machine);
+        this.saveState();
     }
 }
 
