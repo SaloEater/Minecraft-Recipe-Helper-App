@@ -1,10 +1,9 @@
 import React from "react";
 import {Route, Switch} from "react-router";
-import {observer} from "mobx-react";
 import MainLayout from "./layout/main";
 import MainPage from "./page/main";
 import ItemPage from "./page/item";
-import ItemCreatePage from "./page/item/create";
+import {ItemCreatePage} from "./page/item/create";
 import MachinePage from "./page/machine";
 import MachineCreatePage from "./page/machine/create";
 import RecipeResultPage from "./page/recipe-result";

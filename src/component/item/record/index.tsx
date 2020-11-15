@@ -4,6 +4,7 @@ import ItemsStore from "../../../state/item";
 import {Link, withRouter} from "react-router-dom";
 import {ItemProps} from "../../../type/page/item/ItemProps";
 import styles from "./styles.module.css";
+import {ItemNewRecord} from "./create";
 
 
 class InnerItemRecord extends React.Component<ItemProps, any> {
@@ -17,11 +18,14 @@ class InnerItemRecord extends React.Component<ItemProps, any> {
     render() {
         const id: string = this.props.match.params.id;
         const item = this.itemsStore.getItem(id);
+        const onClick = () => {
+            item.name = this.itemsStore.getNewItemName;
+            item.stack = Number(this.itemsStore.getNewStack);
+            this.itemsStore.saveItem(item);
+        }
         return (
             <div className={styles.Item}>
-                <div>
-                    Item: { "{id: "} <Link to={"/item/"+id}>{id}</Link> {", name: " + item.name + "}" }
-                </div>
+                <ItemNewRecord item={item} onClick={onClick}/>
                 <textarea
                     placeholder="Amount to craft"
                     onChange={(e) => this.itemsStore.onAmountToCraftChanged(e.target.value)}

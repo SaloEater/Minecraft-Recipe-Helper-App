@@ -2,13 +2,22 @@ import React, {ChangeEvent} from "react";
 import {inject, observer} from "mobx-react";
 import styles from "./styles.module.css";
 import ItemsStore from "../../../../state/item";
+import {ItemEditForm} from "../../../../type/component/item/create";
 
-class InnerItemNewRecord extends React.Component<any, any> {
+class InnerItemNewRecord extends React.Component<ItemEditForm, any> {
     itemsStore: ItemsStore;
 
     constructor(props: any) {
         super(props);
         this.itemsStore = props.ItemsStore;
+        const item = this.props.item;
+        if (item) {
+            this.itemsStore.onNewItemNameChange(item.name);
+            this.itemsStore.onNewStackChanged(String(item.stack));
+        } else {
+            this.itemsStore.onNewItemNameChange("");
+            this.itemsStore.onNewStackChanged("");
+        }
     }
 
     render() {
@@ -26,7 +35,7 @@ class InnerItemNewRecord extends React.Component<any, any> {
                 onChange={(e: ChangeEvent<HTMLTextAreaElement>)=>this.itemsStore.onNewStackChanged(e.target.value)}
             />
             <button
-                onClick={() => this.itemsStore.createNewItemButtonClicked()}
+                onClick={() => this.props.onClick()}
                 disabled={this.itemsStore.canCreateNewItem}
             >Save</button>
             </div>

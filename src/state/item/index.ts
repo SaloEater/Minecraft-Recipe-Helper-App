@@ -134,6 +134,11 @@ export class ItemsStore
             this._newItemName !== "" &&
             this._newStack !== "";
     }
+
+    saveItem(item: Item): void {
+        this._items.set(item.id, item);
+        this.save();
+    }
 }
 
 export default ItemsStore;
