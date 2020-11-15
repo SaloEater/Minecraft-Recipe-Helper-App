@@ -16,7 +16,7 @@ export class RecipesStore
     _createNewItemButtonClicked: boolean = false;
     _canCreateNewItem: boolean = false;
 
-    private save(): void {
+    private saveState(): void {
         let items = JSON.stringify(Array.from(this._items.values()));
         localStorage.setItem(IdTypes.RECIPE, items);
     }
@@ -46,7 +46,7 @@ export class RecipesStore
     addRecipeResult(recipe: Recipe): void {
         this._items.set(recipe.id, recipe);
         this._IdStore.updateNextId(IdTypes.RECIPE);
-        this.save();
+        this.saveState();
     }
 
     getRecipe(id: string): Recipe {
@@ -89,8 +89,8 @@ export class RecipesStore
         this.updateCreateButtonAvailability();
     }
 
-    onSelectRecipeResult(machined: string): void {
-        this._selectedRecipeResultId = machined;
+    onSelectRecipeResult(recipeResultId: string): void {
+        this._selectedRecipeResultId = recipeResultId;
         this.updateCreateButtonAvailability();
     }
 
@@ -122,6 +122,11 @@ export class RecipesStore
             this._selectedItemId !== ""
             && this._selectedRecipeResultId !== ""
             && this._recipeAmount !== "";
+    }
+
+    save(recipe: Recipe): void {
+        this._items.set(recipe.id, recipe);
+        this.saveState();
     }
 }
 

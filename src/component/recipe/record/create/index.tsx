@@ -4,8 +4,9 @@ import styles from "./styles.module.css";
 import ItemsStore from "../../../../state/item";
 import RecipeResultsStore from "../../../../state/recipe-result";
 import RecipesStore from "../../../../state/recipe";
+import {RecipeEditForm} from "../../../../type/component/recipe/create";
 
-class InnerRecipeNewRecord extends React.Component<any, any> {
+class InnerRecipeNewRecord extends React.Component<RecipeEditForm, any> {
 
     RecipesStore: RecipesStore;
     ItemsStore: ItemsStore;
@@ -16,6 +17,16 @@ class InnerRecipeNewRecord extends React.Component<any, any> {
         this.RecipesStore = props.RecipesStore;
         this.ItemsStore = props.ItemsStore;
         this.RecipeResultsStore = props.RecipeResultsStore;
+        const recipe = this.props.recipe;
+        if (recipe) {
+            this.RecipesStore.onSelectItem(recipe.itemId);
+            this.RecipesStore.onSelectRecipeResult(recipe.recipeResultId);
+            this.RecipesStore.onAmountChange(String(recipe.amount));
+        } else {
+            this.RecipesStore.onSelectItem("");
+            this.RecipesStore.onSelectRecipeResult("");
+            this.RecipesStore.onAmountChange("");
+        }
     }
 
     render() {
@@ -45,7 +56,7 @@ class InnerRecipeNewRecord extends React.Component<any, any> {
                     onChange={(e: ChangeEvent<HTMLTextAreaElement>) => this.RecipesStore.onAmountChange(e.target.value)}
                 />
                 <button
-                    onClick={() => this.RecipesStore.createNewItemButtonClicked()}
+                    onClick={() => this.props.onClick()}
                     disabled={this.RecipesStore.canCreateNewItem}
                 >Save</button>
             </div>
