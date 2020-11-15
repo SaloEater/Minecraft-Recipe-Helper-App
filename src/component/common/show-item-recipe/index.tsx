@@ -25,7 +25,7 @@ class InnerShowItemRecipe extends React.Component<ShowItemRecipeParams, any>
             .map((value) => <ShowRecipeResult recipeResultId={value.id} amount={Number(this.props.amount)}/>);
         return <div>
             To craft {this.props.amount} of {item.name} you need:
-            <div className={styles.RecipeResult}>
+            <div className={styles.ItemRecipe}>
                 {rrs}
             </div>
         </div>;

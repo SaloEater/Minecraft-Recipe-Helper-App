@@ -1,4 +1,4 @@
-.Item {
+.Recipe {
     display: grid;
     grid-template-columns: 1fr;
     padding-left: 2%;
