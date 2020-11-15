@@ -3,6 +3,7 @@ import {MainStore} from "../index";
 import IdStore from "../id";
 import {IdTypes} from "../../type/common/id/types";
 import {Recipe} from "../../type/component/recipe";
+import {isNumeric} from "../../common/isNumeric";
 
 export class RecipesStore
 {
@@ -94,7 +95,7 @@ export class RecipesStore
     }
 
     onAmountChange(newAmount: string): void {
-        if (this.isNumeric(newAmount) || newAmount === ""){
+        if (isNumeric(newAmount) || newAmount === ""){
             this._recipeAmount = newAmount;
             this.updateCreateButtonAvailability();
         }
@@ -121,11 +122,6 @@ export class RecipesStore
             this._selectedItemId !== ""
             && this._selectedRecipeResultId !== ""
             && this._recipeAmount !== "";
-    }
-
-    private isNumeric(str: string): boolean {
-        return !isNaN(Number(str)) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
-            !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
     }
 }
 

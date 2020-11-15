@@ -3,6 +3,7 @@ import {action, computed, makeAutoObservable, observable} from "mobx";
 import {MainStore} from "../index";
 import IdStore from "../id";
 import {IdTypes} from "../../type/common/id/types";
+import {isNumeric} from "../../common/isNumeric";
 
 export class ItemsStore
 {
@@ -96,15 +97,10 @@ export class ItemsStore
     }
 
     onAmountToCraftChanged(value: string) {
-        if (this.isNumeric(value) || value === "") {
+        if (isNumeric(value) || value === "") {
             this._amountToCraft = value;
             this.updateCanCraftState();
         }
-    }
-
-    private isNumeric(str: string): boolean {
-        return !isNaN(Number(str)) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
-            !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
     }
 
     private updateCanCraftState() {
@@ -122,7 +118,7 @@ export class ItemsStore
     }
 
     onNewStackChanged(value: string) {
-        if (this.isNumeric(value) || value === "") {
+        if (isNumeric(value) || value === "") {
             this._newStack = value;
             this.updateCanCreate();
         }

@@ -5,6 +5,7 @@ import IdStore from "../id";
 import {IdTypes} from "../../type/common/id/types";
 import ItemsStore from "../item";
 import MachinesStore from "../machine";
+import {isNumeric} from "../../common/isNumeric";
 
 export class RecipeResultsStore
 {
@@ -108,7 +109,7 @@ export class RecipeResultsStore
     }
 
     onAmountChange(newAmount: string): void {
-        if (this.isNumeric(newAmount) || newAmount === ""){
+        if (isNumeric(newAmount) || newAmount === ""){
             this._newRecipeAmount = newAmount;
             this.updateCreateButtonAvailability();
         }
@@ -140,11 +141,6 @@ export class RecipeResultsStore
             && this._selectedMachineId !== ""
             && this._newRecipeAmount !== ""
             && this._newName !== "";
-    }
-
-    private isNumeric(str: string): boolean {
-        return !isNaN(Number(str)) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
-            !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
     }
 
     onNewNameChange(newName: string): void {

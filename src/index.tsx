@@ -4,7 +4,9 @@ import './index.css';
 import App from './App';
 import {Provider} from "mobx-react";
 import reportWebVitals from './reportWebVitals';
-import mainStore from "./state";
+import MainStore from "./state";
+
+const mainStore = new MainStore();
 
 ReactDOM.render(
   <React.StrictMode>

@@ -13,7 +13,6 @@ import RecipePage from "./page/recipe";
 import RecipeCreatePage from "./page/recipe/create";
 import ShowItemRecipePage from "./page/common/show-item-recipe";
 
-@observer
 export default class Routes extends React.Component<any, any> {
     render() {
         return (
