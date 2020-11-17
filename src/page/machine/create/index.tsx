@@ -13,8 +13,9 @@ class InnerMachineCreatePage extends React.Component<any, any>
     }
 
     render() {
+
         return (
-            <MachineNewRecord machine={null} onClick={this.MachinesStore.createNewItemButtonClicked}/>
+            <MachineNewRecord machine={null} onClick={() => this.MachinesStore.createNewItemButtonClicked()}/>
         );
     }
 }
