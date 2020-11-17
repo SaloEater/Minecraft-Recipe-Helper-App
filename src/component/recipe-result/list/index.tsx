@@ -33,7 +33,6 @@ class InnerRecipeResultList extends React.Component<any, any>
                 </div>);
             }
         );
-        console.log(items);
         return (
             <div className={styles.items}>{items}</div>
         );

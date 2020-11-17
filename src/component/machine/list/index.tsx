@@ -19,7 +19,6 @@ class InnerMachineList extends React.Component<any, any>
         this.MachinesStore.getMachines().forEach(
             (machine: Machine) => items.push(<Link to={"/machine/"+machine.id}>{machine.name}</Link>)
         );
-        console.log(items);
         return (
             <div className={styles.items}>{items}</div>
         );

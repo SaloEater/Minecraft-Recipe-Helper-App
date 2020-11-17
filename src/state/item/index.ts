@@ -65,7 +65,7 @@ export class ItemsStore
         this._items.delete(item.id);
     }
 
-    createNewItem(): void {
+    createNew(): void {
         let id: string = String(this._IdStore.getNextId(IdTypes.ITEM));
         let newName: string = this._newItemName;
         let item = {
@@ -85,7 +85,7 @@ export class ItemsStore
 
     createNewItemButtonClicked(): void {
         this._createNewItemButtonClicked = true;
-        this.createNewItem();
+        this.createNew();
     }
 
     get getNewItemName() {
