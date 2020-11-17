@@ -13,8 +13,9 @@ class InnerItemCreatePage extends React.Component<any, any>
     }
 
     render() {
+        const onClick = () => this.itemsStore.createNewItemButtonClicked();
         return (
-            <ItemNewRecord item={null} onClick={this.itemsStore.createNewItemButtonClicked}/>
+            <ItemNewRecord item={null} onClick={onClick}/>
         );
     }
 }
