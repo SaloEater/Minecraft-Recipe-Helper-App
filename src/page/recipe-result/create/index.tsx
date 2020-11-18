@@ -15,7 +15,7 @@ export default class RecipeResultCreatePage extends React.Component<any, any>
 
     render() {
         return (
-            <RecipeResultNewRecord rr={null} onClick={() => this.RecipeResultsStore.createNewItemButtonClicked}/>
+            <RecipeResultNewRecord rr={null} onClick={() => this.RecipeResultsStore.createNewItemButtonClicked()}/>
         );
     }
 }
