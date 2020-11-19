@@ -20,7 +20,7 @@ class InnerShowRecipe extends React.Component<ShowRecipeParams, any>
     render() {
         const recipe = this.RecipesStore.getRecipe(this.props.recipeId);
         const item = this.ItemsStore.getItem(recipe.itemId);
-        const stacks = this.props.amount > item.stack ? this.props.amount/item.stack : 0;
+        const stacks = this.props.amount > item.stack ? Math.floor(this.props.amount/item.stack) : 0;
         const stacksString = stacks > 0 ? stacks + " stacks and" : "";
         const itemsAmount = stacks > 0 ? this.props.amount-stacks*item.stack : item.stack;
         return <div className={styles.Recipe}>
